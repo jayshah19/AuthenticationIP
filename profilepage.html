@@ -23,11 +23,15 @@
             font-size: 16px;
             line-height: 22px;
         }
-
+        .container{
+            display: grid;
+            height: 100%;
+            grid-template-columns: auto auto;
+        }
         .column {
             float: left;
             width: 50%;
-            padding: 10px;
+            padding: 0px;
         }
 
         .row:after {
@@ -74,12 +78,6 @@
             padding: 5px;
         }
 
-        .row:after {
-            content: "";
-            display: table;
-            clear: both;
-        }
-
         button {
             width: 150px;
             padding: 10px;
@@ -108,23 +106,34 @@
 <body>
     <center>
         <form action="save">
-            <div class="row">
+            <div class="container">
                 <div>
-                    <img class="avatar" src="man.jpeg" alt="Avatar" class="avatar">
+                    <div class="avatar">
+                        <img src="man.jpeg" id="output" width="200" />
+                    </div>
+                    <input id="file" type="file" width="200" onchange="loadFile(event)" />
                 </div>
                 <div>
-                    <h1>Profile Information</h1> <br>
-                    <h2>Name <br>
-                        <input type="text" name="username" placeholder="User Name" value="Simran">
-                    </h2>
-                    <h2>Email <br>
-                        <input type="email" name="email" placeholder="abc@email.com" value="abc@gmail.com">
-                    </h2>
-                    <button id="save" style="margin: 50px;">Save</button>
+                    <form action="save">
+                        <h1>Profile Information</h1> <br>
+                        <h2>Name <br>
+                            <input type="text" name="username" placeholder="User Name" value="Simran">
+                        </h2>
+                        <h2>Email <br>
+                            <input type="email" name="email" placeholder="abc@email.com" value="abc@gmail.com">
+                        </h2>
+                        <button id="save" style="margin: 50px;">Save</button>
                 </div>
             </div>
         </form>
+
     </center>
 </body>
 
 </html>
+<script>
+    var loadFile = function (event) {
+        var image = document.getElementById("output");
+        image.src = URL.createObjectURL(event.target.files[0]);
+    };
+</script>
