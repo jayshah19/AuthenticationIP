@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    
+	<script type="text/javascript">
+      var onloadCallback = function() {
+        grecaptcha.render('html_element', {
+          'sitekey' : '6Lfc2ygiAAAAAG_ujlR4Mlpna8dkC3rhdmY2CL03'
+        });
+      };
+    </script>
+
+	
+	
+	<meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <!-- The core Firebase JS SDK is always required and must be listed first -->
+    <script src="https://www.gstatic.com/firebasejs/6.3.5/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/6.3.5/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/6.3.5/firebase-database.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/6.3.5/firebase-auth.js"></script>
+    
+    <!--Adding Bootstrap-->    
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+    
+    <title>Google Auth</title>
+    <link rel="stylesheet" href="stylesheet.css">
+</head>
+<body>
+     <section class="container edit-container">
+    <div class="sticky-top"><h1>Google Auth</h1></div>
+          
+			
+	<div>
+	
+	<br> </br>
+	
+	<p> Sign in With </p>
+	
+	<span class="loginwith">Social Network</span>
+	
+	<br> </br>
+   
+	
+	<div id="LoginScreen">
+      <button id="login">Login with Google</button>
+    </div>
+
+    <div id="dashboard">
+      <div id="userDetails"></div>
+      <button id="logout">Logout</button>
+    </div>
+
+    <!-- The core Firebase JS SDK is always required and must be listed first -->
+    <script src="https://www.gstatic.com/firebasejs/9.10.0/firebase-app.js"></script>
+
+    <script src="https://www.gstatic.com/firebasejs/9.10.0/firebase-auth.js"></script>
+
+    <!-- TODO: Add SDKs for Firebase products that you want to use
+     https://firebase.google.com/docs/web/setup#available-libraries -->
+
+    <script>
+      // Your web app's Firebase configuration
+      const firebaseConfig = {
+       apiKey: "AIzaSyAk2pZQSt6afOBv9FKbEAXN4_PvOTqojZw",
+  authDomain: "authentication-app-5c899.firebaseapp.com",
+  databaseURL: "https://authentication-app-5c899-default-rtdb.firebaseio.com",
+  projectId: "authentication-app-5c899",
+  storageBucket: "authentication-app-5c899.appspot.com",
+  messagingSenderId: "958481938603",
+  appId: "1:958481938603:web:fbdd6130f9db7acd655fee"
+      };
+      // Initialize Firebase
+      firebase.initializeApp(firebaseConfig);
+
+      document.getElementById('dashboard').style.display="none"
+
+      document.getElementById('login').addEventListener('click', GoogleLogin)
+      document.getElementById('logout').addEventListener('click', LogoutUser)
+
+      let provider = new firebase.auth.GoogleAuthProvider()
+
+      function GoogleLogin(){
+        console.log('Login Btn Call')
+        firebase.auth().signInWithPopup(provider).then(res=>{
+          console.log(res.user)
+          document.getElementById('LoginScreen').style.display="none"
+          document.getElementById('dashboard').style.display="block"
+          showUserDetails(res.user)
+        }).catch(e=>{
+          console.log(e)
+        })
+      }
+
+      function showUserDetails(user){
+        document.getElementById('userDetails').innerHTML = `
+          <img src="${user.photoURL}" style="width:10%">
+          <p>Name: ${user.displayName}</p>
+          <p>Email: ${user.email}</p>
+        `
+      }
+
+      function checkAuthState(){
+        firebase.auth().onAuthStateChanged(user=>{
+          if(user){
+            document.getElementById('LoginScreen').style.display="none"
+            document.getElementById('dashboard').style.display="block"
+            showUserDetails(user)
+          }else{
+
+          }
+        })
+      }
+
+      function LogoutUser(){
+        console.log('Logout Btn Call')
+        firebase.auth().signOut().then(()=>{
+          document.getElementById('LoginScreen').style.display="block"
+          document.getElementById('dashboard').style.display="none"
+        }).catch(e=>{
+          console.log(e)
+        })
+      }
+      checkAuthState()
+    </script>
+          
+
+</body>
+</html>
